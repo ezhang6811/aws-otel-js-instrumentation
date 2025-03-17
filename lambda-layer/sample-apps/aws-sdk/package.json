@@ -2,6 +2,7 @@
   "name": "@opentelemetry-samples/lambda-awssdk",
   "description": "Sample application for AWS Lambda using AWS SDK v2.",
   "version": "0.0.1",
+  "type": "module",
   "repository": "aws-observability/aws-otel-js-instrumentation",
   "author": {
     "name": "Amazon Web Services",
