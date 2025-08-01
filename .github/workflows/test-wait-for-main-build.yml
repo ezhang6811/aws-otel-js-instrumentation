@@ -1,0 +1,50 @@
+name: Test Wait for Main Build
+on:
+  workflow_dispatch:
+    inputs:
+      test_ref:
+        description: 'Git ref to test against (defaults to current branch)'
+        required: false
+        default: ''
+      wait_timeout:
+        description: 'Timeout in minutes for waiting (default: 10)'
+        required: false
+        default: '10'
+
+jobs:
+  test-wait-for-main-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(github.event.inputs.wait_timeout || '10') }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set test ref
+        id: set_ref
+        run: |
+          if [ -n "${{ github.event.inputs.test_ref }}" ]; then
+            echo "test_ref=${{ github.event.inputs.test_ref }}" >> $GITHUB_OUTPUT
+          else
+            echo "test_ref=${{ github.ref }}" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Display test configuration
+        run: |
+          echo "Testing wait logic with:"
+          echo "  - Ref: ${{ steps.set_ref.outputs.test_ref }}"
+          echo "  - Timeout: ${{ github.event.inputs.wait_timeout || '10' }} minutes"
+          echo "  - Looking for check: 'NodeJS Instrumentation Main Build'"
+          
+      - name: Wait for main-build workflow to succeed
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ steps.set_ref.outputs.test_ref }}
+          check-name: 'NodeJS Instrumentation Main Build'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30
+          allowed-conclusions: success
+          
+      - name: Test completed successfully
+        run: |
+          echo "✅ Wait for main build test completed successfully!"
+          echo "The main build check was found and passed."
