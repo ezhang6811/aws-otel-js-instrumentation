@@ -1,0 +1,31 @@
+name: Dummy NodeJS Instrumentation Main Build
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Simulate build process
+        run: |
+          echo "🚀 Starting dummy main build..."
+          echo "✅ Checking package.json syntax..."
+          cat package.json | jq . > /dev/null
+          echo "✅ Package.json is valid!"
+          
+      - name: Simulate tests
+        run: |
+          echo "🧪 Running dummy tests..."
+          sleep 10
+          echo "✅ All tests passed!"
+          
+      - name: Build complete
+        run: |
+          echo "🎉 Dummy main build completed successfully!"
+          echo "This build can be used to test the wait-for-main-build logic."

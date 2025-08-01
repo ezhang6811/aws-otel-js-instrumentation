@@ -10,7 +10,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.ref }}
-          check-name: 'NodeJS Instrumentation Main Build'
+          check-name: 'Dummy NodeJS Instrumentation Main Build'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30
           allowed-conclusions: success
