@@ -1,6 +1,15 @@
 name: Dummy NodeJS Instrumentation Main Build
 on:
   workflow_dispatch:
+    inputs:
+      should_fail:
+        description: 'Should this build fail? (true/false)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
   push:
     branches:
       - main
@@ -23,7 +32,12 @@ jobs:
         run: |
           echo "🧪 Running dummy tests..."
           sleep 10
-          echo "✅ All tests passed!"
+          if [ "${{ github.event.inputs.should_fail }}" = "true" ]; then
+            echo "❌ Tests failed! (Intentional failure for testing)"
+            exit 1
+          else
+            echo "✅ All tests passed!"
+          fi
           
       - name: Build complete
         run: |
