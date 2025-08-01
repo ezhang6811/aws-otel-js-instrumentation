@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait for main-build workflow to succeed
-        uses: t3chguy/wait-on-check-action@master
+        uses: ezhang6811/wait-on-check-action@67978fbb1a5dd3bac64fe2fed0fe98574861f64e
         with:
           ref: ${{ github.ref }}
           check-name: 'dummy-build'
