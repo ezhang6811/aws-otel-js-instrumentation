@@ -24,6 +24,7 @@ jobs:
   check-draft:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Check for release draft
         run: |
           TAG="v${{ github.event.inputs.version }}"
