@@ -24,7 +24,8 @@ jobs:
   check-draft:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repo @ SHA - ${{ github.sha }}
+        uses: actions/checkout@v4
       - name: Check for release draft
         run: |
           TAG="v${{ github.event.inputs.version }}"
@@ -35,7 +36,7 @@ jobs:
           fi
           echo "Found draft release for tag $TAG. Proceeding with Lambda layer release."
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-layer:
     runs-on: ubuntu-latest
     needs: check-draft
@@ -153,6 +154,8 @@ jobs:
             layer_arns.tf \
             --clobber
       - name: Update Release Notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="v${{ github.event.inputs.version }}"
           # Get current release notes
