@@ -160,9 +160,7 @@ jobs:
           TAG="v${{ github.event.inputs.version }}"
           # Get current release notes
           current_notes=$(gh release view $TAG --json body -q .body)
-          echo "## Lambda Layer" > lambda_notes.md
-          echo "" >> lambda_notes.md
-          echo "AWS OpenTelemetry Lambda Layer for JavaScript version ${{ github.event.inputs.version }}-${{ steps.commit.outputs.sha_short }}" > lambda_notes.md
+          echo "This release also includes the AWS OpenTelemetry Lambda Layer for JavaScript version ${{ github.event.inputs.version }}-${{ steps.commit.outputs.sha_short }}" >> lambda_notes.md
           echo "" >> lambda_notes.md
           echo "Lambda Layer ARNs:" >> lambda_notes.md
           echo "" >> lambda_notes.md
